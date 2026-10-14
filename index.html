@@ -219,6 +219,22 @@ tr:last-child td{border-bottom:0}
 .maker .credit{font-size:12px;color:var(--muted);margin-top:6px}
 .ask{display:flex;gap:12px;align-items:flex-start;background:var(--navy-bg);border-radius:10px;padding:14px 16px;font-weight:500}
 
+/* source tags */
+.src{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.src b{font-weight:600}
+.tg{display:inline-block;font-size:11.5px;font-weight:700;border-radius:4px;padding:1px 6px;letter-spacing:.02em;white-space:nowrap;vertical-align:1px}
+.tg.mc{background:var(--navy-bg);color:var(--navy)}
+.tg.gb{background:var(--green-bg);color:var(--green)}
+.tg.yt{background:var(--amber-bg);color:var(--amber)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.stat .v{font-size:30px;font-weight:800;line-height:1;color:var(--green);font-variant-numeric:tabular-nums}
+.stat.cap .v{color:var(--red)}
+.stat .l{font-size:14px;line-height:1.45}
+.st.bad{background:var(--red-bg);color:var(--red)}
+.srclist{margin:0;padding-left:18px;font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:2px}
+.srclist a{color:inherit}
+
 /* pager + footer */
 .pager{display:flex;align-items:center;gap:12px;background:var(--card);border-top:1px solid var(--line);
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:8px}
@@ -306,10 +322,11 @@ tr:last-child td{border-bottom:0}
         <div class="grid g4">
           <button class="card mapcard" data-go="4"><span class="n">1</span><span class="q">รู้จักโมเดล</span><span>คืออะไร รับอะไร ส่งอะไร ฝึกจากข้อมูลไหน</span><span class="eq">เทียบได้กับ <b>ส่วนประกอบและรูปแบบยา</b></span></button>
           <button class="card mapcard" data-go="7"><span class="n">2</span><span class="q">เก่งแค่ไหน</span><span>ผล benchmark เทียบกับคู่แข่ง</span><span class="eq">เทียบได้กับ <b>ผลการศึกษาทางคลินิก</b></span></button>
-          <button class="card mapcard" data-go="12"><span class="n">3</span><span class="q">ใช้ได้แค่ไหน</span><span>งานที่เหมาะ ข้อจำกัด และข้อห้าม</span><span class="eq">เทียบได้กับ <b>ข้อบ่งใช้และข้อห้ามใช้</b></span></button>
-          <button class="card mapcard" data-go="14"><span class="n">4</span><span class="q">ปลอดภัยแค่ไหน</span><span>ผลประเมินความปลอดภัยและความเสี่ยงขั้นสูง</span><span class="eq">เทียบได้กับ <b>คำเตือนและข้อควรระวัง</b></span></button>
+          <button class="card mapcard" data-go="14"><span class="n">3</span><span class="q">ใช้ได้แค่ไหน</span><span>งานที่เหมาะ ข้อจำกัด และข้อห้าม</span><span class="eq">เทียบได้กับ <b>ข้อบ่งใช้และข้อห้ามใช้</b></span></button>
+          <button class="card mapcard" data-go="17"><span class="n">4</span><span class="q">ปลอดภัยแค่ไหน</span><span>ผลประเมินความปลอดภัยและความเสี่ยงขั้นสูง</span><span class="eq">เทียบได้กับ <b>คำเตือนและข้อควรระวัง</b></span></button>
         </div>
         <div class="tip"><span class="ico g"><svg><use href="#i-bulb"/></svg></span><p>เวลา PTC พิจารณายาใหม่ เราไม่ดูแค่ประสิทธิภาพ แต่ดูข้อจำกัดและความปลอดภัยด้วย กับ AI ก็ควรถามครบทั้ง 4 ข้อเหมือนกัน</p></div>
+        <p class="src"><b>ป้ายแหล่งข้อมูลในชุดนี้:</b><span class="tg mc">MC</span>model card <span class="tg gb">GB</span>ประกาศทางการของ Google <span class="tg yt">YT</span>คลิปรีวิวของผู้ทดลองใช้ (รายชื่อท้ายชุด)</p>
       </div>
     </section>
 
@@ -333,7 +350,7 @@ tr:last-child td{border-bottom:0}
         <div class="num">01</div>
         <h2>รู้จักโมเดล</h2>
         <p>จบบทนี้ ตอบได้ว่า Argon รับข้อมูลแบบไหน ส่งอะไรกลับมา และเรียนรู้มาจากข้อมูลอะไร</p>
-        <div class="chips"><span class="chip">สถาปัตยกรรม</span><span class="chip">Input / Output</span><span class="chip">ข้อมูลที่ใช้ฝึก</span><span class="chip time">≈ 2 นาที</span></div>
+        <div class="chips"><span class="chip">สถาปัตยกรรม</span><span class="chip">Input / Output</span><span class="chip">ราคา</span><span class="chip">ข้อมูลที่ใช้ฝึก</span><span class="chip time">≈ 1.5 นาที</span></div>
       </div>
     </section>
 
@@ -362,9 +379,10 @@ tr:last-child td{border-bottom:0}
         <div class="facts">
           <div class="fact"><div class="v">1M token</div><div class="l">input + output รวมกัน อ่านเอกสารยาวหลายร้อยหน้าได้ในครั้งเดียว</div></div>
           <div class="fact"><div class="v">มี.ค. 2569</div><div class="l">knowledge cutoff บางสาขาอาจเก่ากว่านี้</div></div>
-          <div class="fact"><div class="v">13 ต.ค. 2569</div><div class="l">วันเผยแพร่ model card</div></div>
-          <div class="fact"><div class="v">6 ช่องทาง</div><div class="l">Gemini App, API, AI Studio, Gemini for business, Antigravity, AI Mode</div></div>
+          <div class="fact"><div class="v">$2 / $10</div><div class="l">ต่อ 1M token (input / output) ถึง 30 พ.ย. 2569 จากนั้นเป็น $4 / $20 <span class="tg gb">GB</span></div></div>
+          <div class="fact"><div class="v">6 ช่องทาง</div><div class="l">Gemini App (แพ็กเกจ AI Pro / Ultra), API, AI Studio, Gemini for business, Antigravity, AI Mode</div></div>
         </div>
+        <p class="src"><span class="tg mc">MC</span>สถาปัตยกรรม input/output และ cutoff <span class="tg gb">GB</span>ราคาและแพ็กเกจที่ใช้ได้ ณ 13 ต.ค. 2569</p>
       </div>
     </section>
 
@@ -391,8 +409,8 @@ tr:last-child td{border-bottom:0}
       <div class="wrap">
         <div class="num">02</div>
         <h2>เก่งแค่ไหน</h2>
-        <p>อ่านตาราง benchmark ให้ออก แล้วรู้ว่าต้องทดสอบอะไรเพิ่มเองก่อนใช้กับงานยา</p>
-        <div class="chips"><span class="chip">อ่านตัวเลข</span><span class="chip">สิ่งที่ตารางไม่บอก</span><span class="chip">ทดสอบเอง</span><span class="chip">prompt</span><span class="chip time">≈ 3 นาที</span></div>
+        <p>อ่านตาราง benchmark ให้ออก ฟังเสียงผู้ใช้จริง เทียบแหล่งรองกับต้นทาง แล้วรู้ว่าต้องทดสอบอะไรเองก่อนใช้กับงานยา</p>
+        <div class="chips"><span class="chip">อ่านตัวเลข</span><span class="chip">ผู้ใช้จริง</span><span class="chip">เทียบแหล่งข้อมูล</span><span class="chip">ทดสอบเอง</span><span class="chip">prompt</span><span class="chip time">≈ 3.5 นาที</span></div>
       </div>
     </section>
 
@@ -403,7 +421,8 @@ tr:last-child td{border-bottom:0}
         <h2>นำหลายสนาม แต่ไม่ได้นำทุกสนาม</h2><div class="rule"></div>
         <div class="legend"><span><i style="background:var(--red)"></i>Gemini 4 Argon</span><span><i style="background:var(--other)"></i>คู่แข่งที่ได้คะแนนสูงสุดในตารางเดียวกัน</span></div>
         <div class="bench" id="bench"></div>
-        <p class="small">ตัวเลขตาม model card ณ ต.ค. 2569 ผู้พัฒนาเป็นผู้รายงาน · คู่แข่งในตาราง: GPT-6 Astra, Claude Fable 5.1, Claude Opus 5.5 · CWE-bench (ความปลอดภัยไซเบอร์) Argon เสมอ GPT-6 Astra ที่ 68.0%</p>
+        <p class="small">นับทั้งตาราง 19 รายการ: Argon นำ 13 เสมอ 1 (CWE-bench 68.0% เท่ากับ GPT-6 Astra) รุ่นอื่นนำ 5 · คู่แข่งในตาราง: GPT-6 Astra, Claude Fable 5.1, Claude Opus 5.5</p>
+        <p class="src"><span class="tg mc">MC</span>ตัวเลขทั้งหมด ณ ต.ค. 2569 ผู้พัฒนาเป็นผู้รายงาน · รุ่นที่ออกหลังวันประกาศ (เช่น GPT-6.1 Sol, Muse Wonder) ไม่อยู่ในตารางนี้ <span class="tg yt">YT3</span></p>
       </div>
     </section>
 
@@ -431,6 +450,57 @@ tr:last-child td{border-bottom:0}
           </div>
         </div>
         <div class="tip"><span class="ico g"><svg><use href="#i-bulb"/></svg></span><p>เหมือนยาที่ผ่าน trial ในต่างประเทศ เรายังอยากรู้ว่าใช้กับผู้ป่วยของเราแล้วเป็นอย่างไร คำตอบคือต้องทดสอบเองในหน้าถัดไป</p></div>
+      </div>
+    </section>
+
+    <!-- 10 new -->
+    <section class="slide" data-group="บทที่ 2 เก่งแค่ไหน" data-title="ใช้จริงแล้วเป็นอย่างไร">
+      <div class="wrap">
+        <div class="eyebrow">บทที่ 2 · เก่งแค่ไหน</div>
+        <h2>ใช้จริงแล้วเป็นอย่างไร: ฟังทั้งผู้ผลิตและผู้ใช้</h2><div class="rule"></div>
+        <div class="branch">
+          <div class="card yes"><h3><span class="tg gb">GB</span>Google รายงานจากการใช้ภายใน</h3>
+            <ul class="list g">
+              <li>ทีมที่ใช้ Argon ใน Antigravity ส่งโค้ดแบบ agent เพิ่มขึ้นกว่า 35% และต้องถอยโค้ดกลับลดลงเกือบหนึ่งในสาม</li>
+              <li>ทีม Chrome ใช้แยกโค้ดเก่าราว 6 ล้านบรรทัด งานที่เคยใช้หลายเดือนเสร็จในไม่กี่สัปดาห์</li>
+              <li>ปล่อยให้ทำงานเองข้ามคืน ลดเวลาเตรียม session ในหน่วยความจำของ ADK ได้ 40%</li>
+              <li>ตอบตรงขึ้น อ้อมค้อมและซ้ำน้อยลง ทำตามคำสั่งเรื่องสไตล์การเขียนได้ดีกว่ารุ่นก่อน</li>
+            </ul>
+          </div>
+          <div class="card no"><h3><span class="tg yt">YT</span>ผู้ทดลองใช้ภายนอกพบ</h3>
+            <ul class="list n">
+              <li>ยึดเอกสารที่แนบให้ได้ดีขึ้น เติมเรื่องเองน้อยลง และทำงานต่อจนเสร็จ <span class="tg yt">YT2</span></li>
+              <li>งานที่ต้องการหน้าตาสวย ต้องเขียน prompt ละเอียดกว่ารุ่นคู่แข่ง <span class="tg yt">YT2</span></li>
+              <li>ผู้ทดสอบยังชอบ Claude Opus 5.5 มากกว่าสำหรับงานโค้ดบางแบบและงานตัดต่อ <span class="tg yt">YT2</span></li>
+              <li>งาน 3D ทำได้ แต่ผู้ทดสอบมองว่ายังเป็นรอง GPT-6 Astra และ Opus 5.5 <span class="tg yt">YT3</span></li>
+              <li>ถ้าไม่กำหนดขอบเขต มักใช้เวลาราว 30 นาทีต่องาน <span class="tg yt">YT3</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="tip"><span class="ico g"><svg><use href="#i-bulb"/></svg></span><p>ข้อที่น่าสนใจที่สุดสำหรับงานยาคือ "ยึดเอกสาร" เพราะเราอยากให้ตอบจาก SPC ที่แนบไป ไม่ใช่จากความจำ แต่นี่คือประสบการณ์ของผู้ใช้ไม่กี่คน ให้ถือเป็นสมมติฐานที่ต้องทดสอบต่อ</p></div>
+      </div>
+    </section>
+
+    <!-- 11 new -->
+    <section class="slide" data-group="บทที่ 2 เก่งแค่ไหน" data-title="แหล่งรองต้องเทียบต้นทาง">
+      <div class="wrap">
+        <div class="eyebrow">บทที่ 2 · เก่งแค่ไหน</div>
+        <h2>ข้อมูลมือสอง ต้องเทียบกับต้นทางทุกครั้ง</h2><div class="rule"></div>
+        <p class="lead">ตัวอย่างจากคลิปรีวิวภาษาไทยที่ออกมาไม่กี่ชั่วโมงหลังเปิดตัว เทียบกับประกาศของ Google</p>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>ประเด็น</th><th>คลิปรีวิว <span class="tg yt">YT1</span></th><th>ต้นทาง <span class="tg gb">GB</span> <span class="tg mc">MC</span></th><th>ผล</th></tr></thead>
+            <tbody>
+              <tr><td>ชื่อรุ่น</td><td>Gemini 1.5 Argon</td><td>Gemini 4 Argon</td><td><span class="st bad">ผิด</span></td></tr>
+              <tr><td>โครงการด้านไซเบอร์</td><td>"Fairwin"</td><td>Fairwind Program</td><td><span class="st bad">สะกดผิด</span></td></tr>
+              <tr><td>ผลด้านโค้ด</td><td>ส่งโค้ดได้มากขึ้น 35%</td><td>agentic code submissions เพิ่มกว่า 35% วัดในทีมของ Google เอง</td><td><span class="st warn">ขาดบริบท</span></td></tr>
+              <tr><td>Prompt injection</td><td>สำเร็จน้อยกว่า 1%</td><td>0.7% บน Gray Swan IPI เมื่อโจมตีแบบปรับตัว 15 ครั้ง</td><td><span class="st warn">ขาดวิธีวัด</span></td></tr>
+              <tr><td>ราคา</td><td>$2 / $10 ถึง 30 พ.ย. 2569 แล้วเป็น $4 / $20</td><td>ตรงกัน</td><td><span class="st ok">ถูก</span></td></tr>
+              <tr><td>จำนวน benchmark ที่นำ <span class="tg yt">YT2</span></td><td>นำ 13 จาก 19 เสมอ 1</td><td>นับจากตาราง model card ได้ตรงกัน</td><td><span class="st ok">ถูก</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tip"><span class="ico"><svg><use href="#i-eye"/></svg></span><p>เหมือนข้อมูลยาที่แชร์กันในโซเชียล ใช้เป็นจุดเริ่มได้ แต่ก่อนเอาไปใช้ต้องกลับไปดู SPC หรือประกาศ อย. ฉบับจริงทุกครั้ง</p></div>
       </div>
     </section>
 
@@ -482,7 +552,7 @@ tr:last-child td{border-bottom:0}
         <div class="num">03</div>
         <h2>ใช้ได้แค่ไหน</h2>
         <p>รู้ว่างานไหนเหมาะ ข้อจำกัดอะไรที่ผู้พัฒนายอมรับเอง และอะไรห้ามใช้</p>
-        <div class="chips"><span class="chip">งานที่เหมาะ</span><span class="chip">ข้อจำกัด</span><span class="chip">ข้อห้าม</span><span class="chip time">≈ 1.5 นาที</span></div>
+        <div class="chips"><span class="chip">งานที่เหมาะ</span><span class="chip">ข้อจำกัด</span><span class="chip">ข้อห้าม</span><span class="chip">ตัวอย่างงานสุขภาพ</span><span class="chip time">≈ 2 นาที</span></div>
       </div>
     </section>
 
@@ -504,6 +574,22 @@ tr:last-child td{border-bottom:0}
           <div class="bar"><span>ประโยคเติมท้าย prompt ทุกครั้งที่ถามเรื่องยา</span><button class="copy" data-copy="p2"><svg width="14" height="14"><use href="#i-copy"/></svg>คัดลอก</button></div>
 <pre class="ptext" id="p2">ก่อนตอบ บอกก่อนว่าข้อมูลที่ใช้ล่าสุดถึงเมื่อไร และระบุข้อที่ควรตรวจกับเอกสารกำกับยาหรือประกาศของ อย. ฉบับปัจจุบัน</pre>
         </div>
+      </div>
+    </section>
+
+    <!-- 16 new -->
+    <section class="slide" data-group="บทที่ 3 ใช้ได้แค่ไหน" data-title="สัญญาณจากงานสุขภาพและการค้นพบยา">
+      <div class="wrap">
+        <div class="eyebrow">บทที่ 3 · ใช้ได้แค่ไหน</div>
+        <h2>สัญญาณจากงานสุขภาพและการค้นพบยา</h2><div class="rule"></div>
+        <div class="grid g2">
+          <div class="card"><span class="ico g"><svg><use href="#i-db"/></svg></span><h3>วิเคราะห์จีโนมโรคหายาก</h3><p class="small">Gamow Labs ใช้วิเคราะห์จีโนมทารกแรกเกิดที่มีโรคปอดหายาก (ข้อมูลไม่ระบุตัว) ในหนึ่งราย Argon พบการจัดเรียงโครโมโซมผิดปกติที่ซอฟต์แวร์ปกติมองข้ามมาหลายปี</p><p class="small">คะแนน RareBench (ช่วยวินิจฉัยโรคหายาก) 57% จากการประเมินภายใน</p></div>
+          <div class="card"><span class="ico g"><svg><use href="#i-text"/></svg></span><h3>สรุปเอกสารเพื่อค้นพบยา</h3><p class="small">Isomorphic Labs ใช้สังเคราะห์ข้อมูลจาก PDF และสิทธิบัตร งานบางส่วนลดจากหลายสัปดาห์เหลือหลายชั่วโมง</p></div>
+          <div class="card"><span class="ico"><svg><use href="#i-shield"/></svg></span><h3>ปกป้องข้อมูลผู้ป่วย</h3><p class="small">Wiz ใช้ Argon หาและปิดช่องโหว่ที่เปิดสิทธิ์ผู้ดูแลระบบได้ ช่วยปกป้องเวชระเบียนผู้ป่วยหลายแสนราย Google เปิดให้ทีมป้องกันที่ผ่านการคัดกรองใช้รุ่นที่ไม่มีข้อจำกัดด้านไซเบอร์ผ่าน Fairwind Program</p></div>
+          <div class="card"><span class="ico"><svg><use href="#i-bulb"/></svg></span><h3>ออกแบบเอนไซม์</h3><p class="small">นักวิทยาศาสตร์ของ Google ใช้ออกแบบ serine esterase แบบใหม่ ห้องแล็บยืนยันว่า 5 แบบมีฤทธิ์เร่งปฏิกิริยาจริง</p></div>
+        </div>
+        <div class="callout"><svg width="20" height="20"><use href="#i-warn"/></svg><p>ทุกตัวอย่างเป็นผลที่ Google หรือพันธมิตรรายงานเอง ยังไม่ผ่านการตรวจสอบอิสระหรือ peer review ให้มองเป็นสัญญาณว่าเทคโนโลยีไปถึงไหน ไม่ใช่หลักฐานทางคลินิก</p></div>
+        <p class="src"><span class="tg gb">GB</span>ประกาศเปิดตัว Gemini 4 Argon, 13 ต.ค. 2569</p>
       </div>
     </section>
 
@@ -539,6 +625,23 @@ tr:last-child td{border-bottom:0}
       </div>
     </section>
 
+    <!-- 19 new -->
+    <section class="slide" data-group="บทที่ 4 ปลอดภัยแค่ไหน" data-title="ตัวเลขความปลอดภัยจากประกาศของ Google">
+      <div class="wrap">
+        <div class="eyebrow">บทที่ 4 · ปลอดภัยแค่ไหน</div>
+        <h2>ตัวเลขความปลอดภัยที่ Google ประกาศเพิ่ม</h2><div class="rule"></div>
+        <div class="stats">
+          <div class="stat"><div class="v">≈ ½</div><div class="l">คำตอบที่ละเมิดนโยบายในชุดทดสอบเชิงโจมตี ลดลงเกือบครึ่งเมื่อเทียบ Gemini รุ่นก่อน (ไม่ได้ให้ค่าจริง)</div></div>
+          <div class="stat"><div class="v">2%</div><div class="l">อัตราที่โมเดลพยายามลัดขั้นตอนหรือโกงในโจทย์เขียนโค้ด</div></div>
+          <div class="stat"><div class="v">0.7%</div><div class="l">prompt injection ทางอ้อมที่สำเร็จ (Gray Swan IPI, โจมตีแบบปรับตัว 15 ครั้ง)</div></div>
+          <div class="stat"><div class="v">&lt; 1%</div><div class="l">งานย่อยด้านชีวภาพที่ทีม red team ภายนอกเจาะผ่านได้</div></div>
+          <div class="stat cap"><div class="v">12/12</div><div class="l">สถานการณ์จำลองการโจมตีไซเบอร์ที่ทำสำเร็จ (รุ่นก่อน 5) ตัวนี้คือ<b>ความสามารถ</b> ไม่ใช่ความปลอดภัย</div></div>
+        </div>
+        <div class="callout"><svg width="20" height="20"><use href="#i-warn"/></svg><p><b>prompt injection</b> คือคำสั่งที่ซ่อนอยู่ในเว็บ อีเมล หรือเอกสารที่ให้ AI อ่าน ถ้าจะให้ AI อ่านเอกสารจากภายนอกแล้วลงมือทำงานเอง 0.7% ยังไม่ใช่ศูนย์ จึงต้องมีขั้นให้คนยืนยันก่อนทำสิ่งที่ย้อนกลับไม่ได้</p></div>
+        <p class="src"><span class="tg gb">GB</span>Developing Gemini 4 Argon responsibly and safely, 13 ต.ค. 2569 · Google ระบุว่าฝึกให้หยุดถามคนก่อนทำสิ่งที่ย้อนกลับไม่ได้ แต่ไม่ได้ให้ตัวเลข</p>
+      </div>
+    </section>
+
     <!-- 16 -->
     <section class="slide" data-group="บทที่ 4 ปลอดภัยแค่ไหน" data-title="Frontier Safety: ความเสี่ยงขั้นสูง">
       <div class="wrap">
@@ -568,7 +671,7 @@ tr:last-child td{border-bottom:0}
         <div class="eyebrow">สรุป</div>
         <h2>อ่าน ทดสอบ ใช้แบบมีคนตรวจ</h2><div class="rule"></div>
         <div class="flow sumflow">
-          <div class="node key"><span class="k">1</span><div class="t">อ่าน 4 คำถาม</div><div class="d">รู้จัก · เก่งแค่ไหน · ใช้ได้แค่ไหน · ปลอดภัยแค่ไหน</div></div>
+          <div class="node key"><span class="k">1</span><div class="t">อ่าน 4 คำถามจากต้นทาง</div><div class="d">model card และประกาศของผู้พัฒนา แล้วค่อยเทียบกับรีวิวของผู้ใช้</div></div>
           <div class="arr"><svg width="24" height="24"><use href="#i-arrow"/></svg></div>
           <div class="node"><span class="k">2</span><div class="t">ทดสอบกับเคสของเรา</div><div class="d">20 เคส ไม่มีข้อมูลระบุตัว มีคำตอบอ้างอิง</div></div>
           <div class="arr"><svg width="24" height="24"><use href="#i-arrow"/></svg></div>
@@ -583,7 +686,15 @@ tr:last-child td{border-bottom:0}
             <span class="nm">ดร.ภก.วิรุณ เวชศิริ</span>
             <span>คณะเภสัชศาสตร์ มหาวิทยาลัยธรรมศาสตร์</span>
             <span class="small">เอกสารประกอบการอบรม · ห้ามนำไปเผยแพร่โดยไม่ได้รับอนุญาต</span>
-            <span class="credit">แนวคิดเนื้อหาดัดแปลงจาก Gemini 4 Argon Model Card, Google DeepMind (2026)</span>
+            <span class="credit">แนวคิดเนื้อหาดัดแปลงจาก Gemini 4 Argon Model Card, Google DeepMind (2026) และแหล่งประกอบด้านล่าง</span>
+            <ol class="srclist">
+              <li><span class="tg mc">MC</span> <a href="https://deepmind.google/models/model-cards/gemini-4-argon/" target="_blank" rel="noopener">Gemini 4 Argon Model Card</a> · Google DeepMind</li>
+              <li><span class="tg gb">GB</span> <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/" target="_blank" rel="noopener">Gemini 4 Argon: Built to solve your hardest problems</a> · Google</li>
+              <li><span class="tg gb">GB</span> <a href="https://blog.google/innovation-and-ai/technology/safety-security/gemini-4-model-safety-security/" target="_blank" rel="noopener">Developing Gemini 4 Argon responsibly and safely</a> · Google</li>
+              <li><span class="tg yt">YT1</span> <a href="https://www.youtube.com/watch?v=fqspkl1Djiw" target="_blank" rel="noopener">Google ปล่อยของใหญ่! Gemini 4 Argon มาแล้ววว!</a></li>
+              <li><span class="tg yt">YT2</span> <a href="https://www.youtube.com/watch?v=3MMbWDF4xYI" target="_blank" rel="noopener">Gemini 4 Argon Is Here (Fully Tested)</a></li>
+              <li><span class="tg yt">YT3</span> <a href="https://www.youtube.com/watch?v=M8iqahFogtA" target="_blank" rel="noopener">Google just went FRONTIER (Gemini 4 Argon)</a></li>
+            </ol>
           </div>
           <div class="ask"><span class="ico r" style="width:36px;height:36px"><svg><use href="#i-bulb"/></svg></span><p>ถ้าต้องเสนอ PTC ให้นำ AI ตัวหนึ่งเข้ามาใช้ในห้องยา ท่านจะขอดูส่วนไหนของ model card เป็นอันดับแรก และเพราะอะไร</p></div>
         </div>
@@ -595,7 +706,7 @@ tr:last-child td{border-bottom:0}
   <nav class="pager" aria-label="เลื่อนสไลด์">
     <button class="pbtn" id="prev"><svg width="16" height="16" style="transform:rotate(180deg)"><use href="#i-arrow"/></svg><span class="lbl">ก่อนหน้า</span></button>
     <div class="prog" aria-hidden="true"><i id="progBar"></i></div>
-    <span class="pnum" id="pnum">1 / 17</span>
+    <span class="pnum" id="pnum">1 / 21</span>
     <button class="pbtn" id="next"><span class="lbl">ถัดไป</span><svg width="16" height="16"><use href="#i-arrow"/></svg></button>
   </nav>
   <footer class="foot">คณะเภสัชศาสตร์ มหาวิทยาลัยธรรมศาสตร์ &nbsp;|&nbsp; pharm.tu.ac.th &nbsp;|&nbsp; <span id="fnum">1</span></footer>
