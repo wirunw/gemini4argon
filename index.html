@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Gemini 4 Argon Model Card</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap">
+<style>
+/* Layout: one-slide-at-a-time teaching app — red CI top bar + gold rule, parchment stage, pager + red footer */
+:root{
+  --bg:#FAFAFA; --paper:#FDF8EE; --card:#FFFFFF; --ink:#2C2C2C; --muted:#6B645E; --line:#E8E2D6;
+  --red:#C8102E; --crimson:#8B0000; --gold:#F4CD00; --green:#006838; --navy:#1D2D5F;
+  --bar:#C8102E; --bar-deep:#8B0000; --on-bar:#FFFFFF;
+  --code-bg:#1D2D5F; --code-fg:#F3F1EA; --code-muted:#AEB6D6;
+  --amber:#9A5B00; --amber-bg:#FDF1DE; --green-bg:#E5F2EA; --red-bg:#FBE8EB; --navy-bg:#E9ECF5;
+  --track:#EEE8DC; --other:#9AA3BF;
+  --font:"Sarabun","Noto Sans Thai",Tahoma,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#14151B; --paper:#1B1D25; --card:#23252F; --ink:#ECE8E1; --muted:#A8A29A; --line:#343743;
+  --red:#F0566B; --crimson:#5E0910; --gold:#F4CD00; --green:#4CC28A; --navy:#9DB0EE;
+  --bar:#A50E26; --bar-deep:#5E0910; --on-bar:#FFFFFF;
+  --code-bg:#0E1430; --code-fg:#F3F1EA; --code-muted:#8E98C2;
+  --amber:#F2AE55; --amber-bg:#3A2A12; --green-bg:#122E20; --red-bg:#3A1419; --navy-bg:#1E2540;
+  --track:#2C2F3A; --other:#6E7899; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14151B; --paper:#1B1D25; --card:#23252F; --ink:#ECE8E1; --muted:#A8A29A; --line:#343743;
+  --red:#F0566B; --crimson:#5E0910; --gold:#F4CD00; --green:#4CC28A; --navy:#9DB0EE;
+  --bar:#A50E26; --bar-deep:#5E0910; --on-bar:#FFFFFF;
+  --code-bg:#0E1430; --code-fg:#F3F1EA; --code-muted:#8E98C2;
+  --amber:#F2AE55; --amber-bg:#3A2A12; --green-bg:#122E20; --red-bg:#3A1419; --navy-bg:#1E2540;
+  --track:#2C2F3A; --other:#6E7899; color-scheme:dark}
+
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.6}
+.app{height:100%;display:flex;flex-direction:column}
+button{font-family:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+/* top bar */
+.top{background:var(--bar);color:var(--on-bar);border-bottom:3px solid var(--gold);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:8px;
+  display:flex;align-items:center;gap:14px}
+.mark{background:#fff;border:2px solid var(--gold);border-radius:4px;padding:3px 10px;display:flex;align-items:center;gap:8px;color:#8B0000;flex:none}
+.mark b{font-size:22px;line-height:1;color:#C8102E}
+.mark span{font-size:12px;line-height:1.2;font-weight:600;color:#2C2C2C}
+.deck-name{font-weight:600;font-size:15px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.toc-btn{background:transparent;color:var(--on-bar);border:1.5px solid rgba(255,255,255,.7);border-radius:6px;padding:5px 12px;font-size:14px;display:flex;align-items:center;gap:6px;flex:none}
+.toc-btn:hover{background:rgba(255,255,255,.12)}
+@media (max-width:560px){.mark span{display:none}.deck-name{font-size:14px}}
+
+/* stage */
+.stage{flex:1;position:relative;overflow:hidden;background:var(--paper)}
+.slide{position:absolute;inset:0;overflow-y:auto;display:none;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 32px}
+.slide.on{display:block;animation:in .28s ease-out}
+@keyframes in{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.slide.on{animation:none}}
+.wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.slide:not(.hero):not(.divider) .wrap{border-left:6px solid var(--red);padding-left:18px}
+@media (max-width:560px){.slide:not(.hero):not(.divider) .wrap{border-left-width:4px;padding-left:12px}}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.04em;color:var(--red);text-transform:uppercase}
+h1,h2,h3{text-wrap:balance;margin:0;line-height:1.25}
+h2{font-size:clamp(24px,3.2vw,34px);font-weight:700;color:var(--ink)}
+h2+.rule{height:2px;width:72px;background:var(--gold);margin-top:-6px}
+h3{font-size:19px;font-weight:600}
+p{margin:0;max-width:68ch}
+.lead{font-size:18px;color:var(--muted)}
+.small{font-size:13px;color:var(--muted)}
+
+/* hero */
+.hero{background:linear-gradient(135deg,var(--bar),var(--bar-deep));color:var(--on-bar)}
+.hero .wrap{min-height:100%;justify-content:center;gap:20px}
+.hero-grid{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center}
+.hero h1{font-size:clamp(34px,5.6vw,60px);font-weight:800}
+.hero .sub{font-size:clamp(18px,2.4vw,24px);color:var(--gold);font-weight:500}
+.hero .goldline{height:3px;width:120px;background:var(--gold)}
+.hero .who{font-size:17px}
+.hero .hint{font-size:14px;opacity:.85;display:flex;gap:8px;align-items:center}
+.rx-big{width:clamp(120px,18vw,210px);aspect-ratio:1;border-radius:50%;border:3px solid var(--gold);display:grid;place-items:center;
+  font-size:clamp(70px,10vw,120px);font-weight:300;color:#fff;background:rgba(255,255,255,.06);max-width:100%}
+.hero .tag{display:inline-flex;align-self:flex-start;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:3px 12px;font-size:13px}
+@media (max-width:700px){.hero-grid{grid-template-columns:1fr}.rx-big{display:none}}
+
+/* divider */
+.divider{background:linear-gradient(135deg,var(--bar),var(--bar-deep));color:var(--on-bar)}
+.divider .wrap{min-height:100%;justify-content:center;gap:14px;border-bottom:4px solid var(--gold);padding-bottom:28px}
+.divider .num{font-size:clamp(80px,13vw,150px);font-weight:800;line-height:.9;color:#fff}
+.divider h2{color:#fff;font-size:clamp(28px,4vw,44px)}
+.divider p{font-size:19px;opacity:.92}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:3px 12px;font-size:14px}
+.chip.time{background:var(--gold);color:#2C2C2C;border-color:var(--gold);font-weight:600}
+
+/* cards / grids */
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:860px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.g2,.g4{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.ico{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:#fff;flex:none}
+:root .ico svg{width:22px;height:22px}
+.ico.g{background:var(--green)}
+.ico.r{background:var(--red)}
+.mapcard{text-align:left;font:inherit;color:inherit;cursor:pointer;transition:border-color .15s,transform .15s}
+.mapcard:hover{border-color:var(--red);transform:translateY(-2px)}
+.mapcard .n{font-size:30px;font-weight:800;color:var(--red);line-height:1}
+.mapcard .q{font-weight:700;font-size:18px}
+.mapcard .eq{font-size:14px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+.mapcard .eq b{color:var(--green);font-weight:600}
+
+.tip{display:flex;gap:12px;align-items:flex-start;background:var(--navy-bg);border-radius:10px;padding:14px 16px}
+.tip .ico{width:36px;height:36px}
+.callout{border-left:4px solid var(--red);background:var(--red-bg);border-radius:0 8px 8px 0;padding:12px 16px;display:flex;gap:10px;align-items:flex-start}
+.callout svg{flex:none;color:var(--red);margin-top:3px}
+.hw{border:2px dashed var(--green);border-radius:10px;padding:12px 16px;background:var(--green-bg)}
+.hw b{color:var(--green)}
+
+/* flow */
+.flow{display:flex;align-items:stretch;gap:6px}
+.node{flex:1;min-width:0;background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:4px}
+.node .k{width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
+.node.key{border-color:var(--red);background:var(--red-bg)}
+.node.key .k{background:var(--red)}
+.node.out{border-color:var(--green);background:var(--green-bg)}
+.node.out .k{background:var(--green)}
+.node .t{font-weight:700;font-size:16px;line-height:1.3}
+.node .d{font-size:14px;color:var(--muted);line-height:1.45}
+.arr{flex:none;display:grid;place-items:center;color:var(--red)}
+.loop{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--red);font-weight:600}
+@media (max-width:760px){.flow{flex-direction:column}.arr svg{transform:rotate(90deg)}}
+
+/* spec diagram */
+.spec{display:grid;grid-template-columns:1fr auto 1.3fr auto 1fr;gap:10px;align-items:center}
+.spec .col{display:flex;flex-direction:column;gap:8px}
+.pill{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 12px;display:flex;gap:8px;align-items:center;font-weight:500}
+.pill svg{color:var(--navy);flex:none}
+.core{background:var(--navy);color:#fff;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.core .nm{font-size:22px;font-weight:800}
+.core .ex{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.core .ex i{display:block;height:18px;border-radius:4px;background:rgba(255,255,255,.18)}
+.core .ex i.a{background:var(--gold)}
+.core p{font-size:14px;opacity:.9}
+@media (max-width:760px){.spec{grid-template-columns:1fr}.spec .arr svg{transform:rotate(90deg)}}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:760px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.fact{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;min-width:0}
+.fact .v{font-size:22px;font-weight:800;color:var(--red);line-height:1.2}
+.fact .l{font-size:13px;color:var(--muted)}
+
+/* list */
+.list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+.list li{display:flex;gap:9px;align-items:flex-start;font-size:15.5px;line-height:1.5}
+.list li::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--red);margin-top:9px}
+.list.g li::before{background:var(--green)}
+.list.n li::before{background:var(--navy)}
+
+/* bars */
+.bench{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media (max-width:760px){.bench{grid-template-columns:1fr}}
+.bgroup{display:flex;flex-direction:column;gap:10px;min-width:0}
+.bgroup h3{font-size:16px;display:flex;gap:8px;align-items:center}
+.brow{display:flex;flex-direction:column;gap:3px}
+.bname{font-size:14px;font-weight:600;display:flex;justify-content:space-between;gap:8px}
+.bname small{font-weight:400;color:var(--muted)}
+.bline{display:grid;grid-template-columns:96px 1fr 50px;gap:8px;align-items:center;font-size:12.5px}
+.bline .who{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btrack{height:12px;background:var(--track);border-radius:3px;overflow:hidden}
+.bfill{height:100%;border-radius:3px}
+.bfill.ar{background:var(--red)}
+.bfill.ot{background:var(--other)}
+.bline .val{font-variant-numeric:tabular-nums;font-weight:600;text-align:right}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+
+/* branch */
+.branch{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:640px){.branch{grid-template-columns:1fr}}
+.branch .card h3{display:flex;gap:8px;align-items:center}
+.branch .yes h3{color:var(--green)}
+.branch .no h3{color:var(--red)}
+
+/* prompt */
+.prompt{background:var(--code-bg);color:var(--code-fg);border-radius:12px;padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.prompt .bar{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px;color:var(--code-muted)}
+.copy{background:var(--gold);color:#2C2C2C;border:0;border-radius:6px;padding:5px 12px;font-size:13px;font-weight:600;display:flex;gap:6px;align-items:center}
+.ptext{white-space:pre-wrap;font-size:15px;line-height:1.65;margin:0;font-family:var(--font);overflow-wrap:anywhere}
+.ptext .c{background:rgba(76,175,80,.22);border-bottom:2px solid #4CAF50}
+.ptext .tk{background:rgba(244,205,0,.2);border-bottom:2px solid #F4CD00}
+.ptext .f{background:rgba(240,86,107,.22);border-bottom:2px solid #F0566B}
+.ctf-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px}
+.ctf-legend span{display:flex;gap:6px;align-items:center}
+.ctf-legend i{width:14px;height:14px;border-radius:3px;display:inline-block}
+.weak{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.weak q{font-weight:600;color:var(--muted)}
+.weak .x{color:var(--red);font-weight:700;font-size:14px}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:560px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:13px;color:var(--muted);font-weight:600;background:var(--paper)}
+tr:last-child td{border-bottom:0}
+.st{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.st.ok{background:var(--green-bg);color:var(--green)}
+.st.warn{background:var(--amber-bg);color:var(--amber)}
+.delta{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+.delta.up{color:var(--green)}
+.delta.flat{color:var(--amber)}
+
+/* summary */
+.sumflow .node{text-align:left}
+.maker{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--red);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:4px}
+.maker .nm{font-weight:700;font-size:18px}
+.maker .credit{font-size:12px;color:var(--muted);margin-top:6px}
+.ask{display:flex;gap:12px;align-items:flex-start;background:var(--navy-bg);border-radius:10px;padding:14px 16px;font-weight:500}
+
+/* pager + footer */
+.pager{display:flex;align-items:center;gap:12px;background:var(--card);border-top:1px solid var(--line);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:8px}
+.pbtn{background:var(--card);border:1.5px solid var(--line);color:var(--ink);border-radius:8px;padding:6px 14px;font-size:14px;display:flex;align-items:center;gap:6px}
+.pbtn:hover:not(:disabled){border-color:var(--red);color:var(--red)}
+.pbtn:disabled{opacity:.4;cursor:default}
+.prog{flex:1;height:6px;background:var(--track);border-radius:3px;overflow:hidden}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--gold));width:0;transition:width .25s}
+.pnum{font-variant-numeric:tabular-nums;font-size:14px;color:var(--muted);min-width:48px;text-align:center}
+@media (max-width:480px){.pbtn .lbl{display:none}}
+.foot{background:var(--bar);color:var(--on-bar);font-size:12.5px;text-align:center;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:5px calc(5px + env(safe-area-inset-bottom,0px))}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:20}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(340px,88vw);background:var(--card);z-index:21;overflow-y:auto;
+  padding:calc(16px + env(safe-area-inset-top,0px)) calc(16px + env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) 16px;
+  border-left:4px solid var(--red);display:flex;flex-direction:column;gap:14px}
+.drawer h3{display:flex;justify-content:space-between;align-items:center}
+.drawer .x{background:none;border:0;color:var(--ink);font-size:22px;line-height:1}
+.dgroup{display:flex;flex-direction:column;gap:2px}
+.dgroup .gl{font-size:12px;font-weight:700;color:var(--red);letter-spacing:.04em;margin-bottom:2px}
+.dlink{background:none;border:0;text-align:left;color:var(--ink);font-size:15px;padding:6px 8px;border-radius:6px;display:flex;gap:8px}
+.dlink span{color:var(--muted);font-variant-numeric:tabular-nums;min-width:20px}
+.dlink:hover{background:var(--paper)}
+.dlink.cur{background:var(--red-bg);color:var(--red);font-weight:600}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 11V8a4 4 0 018 0v3" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3l10 18H2L12 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 10v5M12 18h.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-text" viewBox="0 0 24 24"><path d="M4 6h16M4 11h16M4 16h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-img" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="2" fill="currentColor"/><path d="M4 18l5-5 4 4 3-3 4 4" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-audio" viewBox="0 0 24 24"><path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 11v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 10l5-3v10l-5-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a1 1 0 00-1-1H5a1 1 0 00-1 1v10a1 1 0 001 1h3" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-loop" viewBox="0 0 24 24"><path d="M20 12a8 8 0 11-2.3-5.7M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0012 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v6l-4 2v-8L3 5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+</svg>
+
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="mark" aria-label="คณะเภสัชศาสตร์ มหาวิทยาลัยธรรมศาสตร์"><b>℞</b><span>คณะเภสัชศาสตร์<br>มหาวิทยาลัยธรรมศาสตร์</span></div>
+    <div class="deck-name">อ่าน Model Card ให้เป็น · Gemini 4 Argon</div>
+    <button class="toc-btn" id="tocBtn" aria-haspopup="dialog"><svg width="16" height="16"><use href="#i-menu"/></svg>สารบัญ</button>
+  </header>
+
+  <main class="stage" id="stage">
+
+    <!-- 1 -->
+    <section class="slide hero" data-group="เปิดเรื่อง" data-title="หน้าเปิด">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+            <span class="tag">บรรยาย 10 นาที · ต.ค. 2569</span>
+            <h1>อ่าน Model Card ให้เป็น</h1>
+            <div class="goldline"></div>
+            <div class="sub">กรณีศึกษา Gemini 4 Argon สำหรับเภสัชกร</div>
+            <div class="who">ดร.ภก.วิรุณ เวชศิริ<br><span style="opacity:.85">คณะเภสัชศาสตร์ มหาวิทยาลัยธรรมศาสตร์</span></div>
+            <div class="hint"><svg width="18" height="18"><use href="#i-arrow"/></svg>กดลูกศรขวา ปุ่ม "ถัดไป" หรือปัดหน้าจอเพื่อเลื่อน</div>
+          </div>
+          <div class="rx-big" aria-hidden="true">℞</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="slide" data-group="เปิดเรื่อง" data-title="ภาพรวม: model card คือเอกสารกำกับยาของ AI">
+      <div class="wrap">
+        <div class="eyebrow">ภาพรวม</div>
+        <h2>Model card คือเอกสารกำกับยาของ AI</h2><div class="rule"></div>
+        <p class="lead">อ่านด้วย 4 คำถามเดียวกับตอนที่เราอ่าน SPC ก่อนพิจารณายาใหม่ กดการ์ดเพื่อข้ามไปบทนั้น</p>
+        <div class="grid g4">
+          <button class="card mapcard" data-go="4"><span class="n">1</span><span class="q">รู้จักโมเดล</span><span>คืออะไร รับอะไร ส่งอะไร ฝึกจากข้อมูลไหน</span><span class="eq">เทียบได้กับ <b>ส่วนประกอบและรูปแบบยา</b></span></button>
+          <button class="card mapcard" data-go="7"><span class="n">2</span><span class="q">เก่งแค่ไหน</span><span>ผล benchmark เทียบกับคู่แข่ง</span><span class="eq">เทียบได้กับ <b>ผลการศึกษาทางคลินิก</b></span></button>
+          <button class="card mapcard" data-go="12"><span class="n">3</span><span class="q">ใช้ได้แค่ไหน</span><span>งานที่เหมาะ ข้อจำกัด และข้อห้าม</span><span class="eq">เทียบได้กับ <b>ข้อบ่งใช้และข้อห้ามใช้</b></span></button>
+          <button class="card mapcard" data-go="14"><span class="n">4</span><span class="q">ปลอดภัยแค่ไหน</span><span>ผลประเมินความปลอดภัยและความเสี่ยงขั้นสูง</span><span class="eq">เทียบได้กับ <b>คำเตือนและข้อควรระวัง</b></span></button>
+        </div>
+        <div class="tip"><span class="ico g"><svg><use href="#i-bulb"/></svg></span><p>เวลา PTC พิจารณายาใหม่ เราไม่ดูแค่ประสิทธิภาพ แต่ดูข้อจำกัดและความปลอดภัยด้วย กับ AI ก็ควรถามครบทั้ง 4 ข้อเหมือนกัน</p></div>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="slide" data-group="เปิดเรื่อง" data-title="ก่อนเริ่ม: กติกา 4 ข้อ">
+      <div class="wrap">
+        <div class="eyebrow">ก่อนเริ่ม</div>
+        <h2>กติกา 4 ข้อ ก่อนเอา AI ไปลองกับงานยา</h2><div class="rule"></div>
+        <div class="grid g4">
+          <div class="card"><span class="ico r"><svg><use href="#i-lock"/></svg></span><h3>ไม่ใส่ข้อมูลระบุตัวผู้ป่วย</h3><p class="small">ชื่อ HN เลขบัตร วันเกิด ตัดออกก่อนทุกครั้ง ตาม PDPA</p></div>
+          <div class="card"><span class="ico"><svg><use href="#i-gear"/></svg></span><h3>เช็กการตั้งค่าข้อมูล</h3><p class="small">ดูว่าบัญชีที่ใช้อนุญาตให้นำข้อมูลไปฝึกโมเดลหรือไม่ และองค์กรมีนโยบายอย่างไร</p></div>
+          <div class="card"><span class="ico"><svg><use href="#i-link"/></svg></span><h3>ถาม IT ก่อนเชื่อมระบบ</h3><p class="small">การต่อ API เข้ากับ HIS หรือคลังข้อมูลยา ต้องผ่านฝ่าย IT และผู้รับผิดชอบข้อมูล</p></div>
+          <div class="card"><span class="ico g"><svg><use href="#i-eye"/></svg></span><h3>มีเภสัชกรตรวจเสมอ</h3><p class="small">คำตอบที่กระทบการรักษา ต้องมีคนตรวจก่อนถึงผู้ป่วย</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="slide divider" data-group="บทที่ 1 รู้จักโมเดล" data-title="บทที่ 1 รู้จักโมเดล">
+      <div class="wrap">
+        <div class="num">01</div>
+        <h2>รู้จักโมเดล</h2>
+        <p>จบบทนี้ ตอบได้ว่า Argon รับข้อมูลแบบไหน ส่งอะไรกลับมา และเรียนรู้มาจากข้อมูลอะไร</p>
+        <div class="chips"><span class="chip">สถาปัตยกรรม</span><span class="chip">Input / Output</span><span class="chip">ข้อมูลที่ใช้ฝึก</span><span class="chip time">≈ 2 นาที</span></div>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="slide" data-group="บทที่ 1 รู้จักโมเดล" data-title="รับอะไร ส่งอะไร">
+      <div class="wrap">
+        <div class="eyebrow">บทที่ 1 · รู้จักโมเดล</div>
+        <h2>รับได้ 4 แบบ ตอบกลับเป็นข้อความ</h2><div class="rule"></div>
+        <div class="spec">
+          <div class="col">
+            <div class="pill"><svg width="20" height="20"><use href="#i-text"/></svg>ข้อความ / เอกสาร</div>
+            <div class="pill"><svg width="20" height="20"><use href="#i-img"/></svg>ภาพ</div>
+            <div class="pill"><svg width="20" height="20"><use href="#i-audio"/></svg>เสียง</div>
+            <div class="pill"><svg width="20" height="20"><use href="#i-video"/></svg>วิดีโอ</div>
+          </div>
+          <div class="arr"><svg width="28" height="28"><use href="#i-arrow"/></svg></div>
+          <div class="core">
+            <div class="nm">Gemini 4 Argon</div>
+            <div class="ex" aria-hidden="true"><i></i><i class="a"></i><i></i><i></i><i></i><i></i><i class="a"></i><i></i></div>
+            <p>Sparse Mixture-of-Experts: มีผู้เชี่ยวชาญย่อยหลายชุด แต่เรียกใช้เพียงบางชุดต่อคำถาม</p>
+            <p>เป็นโมเดลใหม่ทั้งตัว ไม่ได้ fine-tune ต่อจากรุ่นก่อน</p>
+          </div>
+          <div class="arr"><svg width="28" height="28"><use href="#i-arrow"/></svg></div>
+          <div class="col"><div class="pill"><svg width="20" height="20"><use href="#i-text"/></svg>ข้อความ</div></div>
+        </div>
+        <div class="facts">
+          <div class="fact"><div class="v">1M token</div><div class="l">input + output รวมกัน อ่านเอกสารยาวหลายร้อยหน้าได้ในครั้งเดียว</div></div>
+          <div class="fact"><div class="v">มี.ค. 2569</div><div class="l">knowledge cutoff บางสาขาอาจเก่ากว่านี้</div></div>
+          <div class="fact"><div class="v">13 ต.ค. 2569</div><div class="l">วันเผยแพร่ model card</div></div>
+          <div class="fact"><div class="v">6 ช่องทาง</div><div class="l">Gemini App, API, AI Studio, Gemini for business, Antigravity, AI Mode</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="slide" data-group="บทที่ 1 รู้จักโมเดล" data-title="ฝึกจากข้อมูลอะไร">
+      <div class="wrap">
+        <div class="eyebrow">บทที่ 1 · รู้จักโมเดล</div>
+        <h2>ฝึกจากข้อมูลอะไร และกรองอย่างไร</h2><div class="rule"></div>
+        <div class="flow">
+          <div class="node"><span class="k"><svg width="16" height="16"><use href="#i-db"/></svg></span><div class="t">แหล่งข้อมูล</div><div class="d">เว็บสาธารณะ ข้อมูลที่ซื้อสิทธิ์ ข้อมูลผู้ใช้ผลิตภัณฑ์ Google ตามเงื่อนไขบริการ และข้อมูลสังเคราะห์</div></div>
+          <div class="arr"><svg width="24" height="24"><use href="#i-arrow"/></svg></div>
+          <div class="node key"><span class="k"><svg width="16" height="16"><use href="#i-filter"/></svg></span><div class="t">กรองข้อมูล</div><div class="d">ตัดข้อมูลซ้ำ เคารพ robots.txt กรองเนื้อหาอันตรายและคุณภาพต่ำ</div></div>
+          <div class="arr"><svg width="24" height="24"><use href="#i-arrow"/></svg></div>
+          <div class="node"><span class="k">RL</span><div class="t">ฝึกต่อหลังพื้นฐาน</div><div class="d">instruction tuning, reinforcement learning และข้อมูลความชอบของมนุษย์ เน้นการคิดหลายขั้น</div></div>
+          <div class="arr"><svg width="24" height="24"><use href="#i-arrow"/></svg></div>
+          <div class="node out"><span class="k"><svg width="16" height="16"><use href="#i-check"/></svg></span><div class="t">ฮาร์ดแวร์</div><div class="d">ฝึกบน TPU ของ Google ด้วย JAX และ ML Pathways</div></div>
+        </div>
+        <div class="callout"><svg width="20" height="20"><use href="#i-warn"/></svg><p><b>จุดที่เภสัชกรต้องสังเกต:</b> ข้อมูลที่ผู้ใช้พิมพ์เข้าไปอาจถูกนำไปฝึกโมเดล ขึ้นกับเงื่อนไขบริการและการตั้งค่าของผู้ใช้ ก่อนพิมพ์อะไรที่เกี่ยวกับผู้ป่วย ให้ตรวจการตั้งค่าบัญชีและนโยบายของโรงพยาบาลก่อน</p></div>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="slide divider" data-group="บทที่ 2 เก่งแค่ไหน" data-title="บทที่ 2 เก่งแค่ไหน">
+      <div class="wrap">
+        <div class="num">02</div>
+        <h2>เก่งแค่ไหน</h2>
+        <p>อ่านตาราง benchmark ให้ออก แล้วรู้ว่าต้องทดสอบอะไรเพิ่มเองก่อนใช้กับงานยา</p>
+        <div class="chips"><span class="chip">อ่านตัวเลข</span><span class="chip">สิ่งที่ตารางไม่บอก</span><span class="chip">ทดสอบเอง</span><span class="chip">prompt</span><span class="chip time">≈ 3 นาที</span></div>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="slide" data-group="บทที่ 2 เก่งแค่ไหน" data-title="นำหลายสนาม ไม่ได้นำทุกสนาม">
+      <div class="wrap">
+        <div class="eyebrow">บทที่ 2 · เก่งแค่ไหน</div>
+        <h2>นำหลายสนาม แต่ไม่ได้นำทุกสนาม</h2><div class="rule"></div>
+        <div class="legend"><span><i style="background:var(--red)"></i>Gemini 4 Argon</span><span><i style="background:var(--other)"></i>คู่แข่งที่ได้คะแนนสูงสุดในตารางเดียวกัน</span></div>
+        <div class="bench" id="bench"></div>
+        <p class="small">ตัวเลขตาม model card ณ ต.ค. 2569 ผู้พัฒนาเป็นผู้รายงาน · คู่แข่งในตาราง: GPT-6 Astra, Claude Fable 5.1, Claude Opus 5.5 · CWE-bench (ความปลอดภัยไซเบอร์) Argon เสมอ GPT-6 Astra ที่ 68.0%</p>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="slide" data-group="บทที่ 2 เก่งแค่ไหน" data-title="สิ่งที่ตารางบอก และไม่บอก">
+      <div class="wrap">
+        <div class="eyebrow">บทที่ 2 · เก่งแค่ไหน</div>
+        <h2>ตัวเลขในตาราง ยังไม่ใช่ผลงานในห้องยาของเรา</h2><div class="rule"></div>
+        <div class="branch">
+          <div class="card yes"><h3><svg width="20" height="20"><use href="#i-check"/></svg>ตารางบอกอะไร</h3>
+            <ul class="list g">
+              <li>เด่นงานเอกสาร กฎหมาย การเงิน และงานอัตโนมัติในสำนักงาน</li>
+              <li>อ่านเอกสารยาวมากได้ดี (GraphWalks ช่วง 256k–1M token)</li>
+              <li>เข้าใจภาพ กราฟ และวิดีโอยาวได้ดี</li>
+              <li>งานวิจัยชีววิทยา (LABBench 2) ได้ 88.8%</li>
+            </ul>
+          </div>
+          <div class="card no"><h3><svg width="20" height="20"><use href="#i-x"/></svg>ตารางไม่บอกอะไร</h3>
+            <ul class="list">
+              <li>ไม่มีชุดทดสอบด้านยาหรือเวชปฏิบัติโดยตรง</li>
+              <li>ไม่บอกผลกับภาษาไทย ชื่อยาไทย หรือฉลากยาไทย</li>
+              <li>ไม่บอกผลกับข้อมูลและแบบฟอร์มของโรงพยาบาลเรา</li>
+              <li>ตัวเลขมาจากผู้พัฒนา ยังไม่มีการทดสอบอิสระในตารางนี้</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tip"><span class="ico g"><svg><use href="#i-bulb"/></svg></span><p>เหมือนยาที่ผ่าน trial ในต่างประเทศ เรายังอยากรู้ว่าใช้กับผู้ป่วยของเราแล้วเป็นอย่างไร คำตอบคือต้องทดสอบเองในหน้าถัดไป</p></div>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="slide" data-group="บทที่ 2 เก่งแค่ไหน" data-title="ทดสอบเองก่อนใช้จริง">
+      <div class="wrap">
+        <div class="eyebrow">บทที่ 2 · เก่งแค่ไหน</div>
+        <h2>ทดสอบเองก่อนใช้จริง 5 ขั้น</h2><div class="rule"></div>
+        <div class="flow">
+          <div class="node"><span class="k">1</span><div class="t">เลือกงานจริง 1 งาน</div><div class="d">เช่น ตอบคำถาม DDI หรือร่างเอกสารแนะนำผู้ป่วย</div></div>
+          <div class="arr"><svg width="24" height="24"><use href="#i-arrow"/></svg></div>
+          <div class="node key"><span class="k">2</span><div class="t">ทำชุดเคส 20 เคส</div><div class="d">มีคำตอบอ้างอิง และลบข้อมูลระบุตัวผู้ป่วยออกหมด</div></div>
+          <div class="arr"><svg width="24" height="24"><use href="#i-arrow"/></svg></div>
+          <div class="node"><span class="k">3</span><div class="t">ให้โมเดลตอบ</div><div class="d">ใช้ prompt เดียวกันทุกเคส (หน้าถัดไป)</div></div>
+          <div class="arr"><svg width="24" height="24"><use href="#i-arrow"/></svg></div>
+          <div class="node key"><span class="k">4</span><div class="t">เภสัชกรตรวจ</div><div class="d">เทียบกับคำตอบอ้างอิง นับข้อผิดและข้อที่อันตราย</div></div>
+          <div class="arr"><svg width="24" height="24"><use href="#i-arrow"/></svg></div>
+          <div class="node out"><span class="k">5</span><div class="t">ตัดสินใจ</div><div class="d">ใช้ได้ ใช้แบบมีคนตรวจ หรือยังไม่ใช้</div></div>
+        </div>
+        <div class="loop"><svg width="20" height="20"><use href="#i-loop"/></svg>ถ้าผลยังไม่ผ่าน ปรับ prompt แล้วกลับไปขั้นที่ 3 ด้วยเคสชุดเดิม</div>
+        <div class="callout"><svg width="20" height="20"><use href="#i-warn"/></svg><p>นับ "ข้อผิดที่อาจเป็นอันตราย" แยกจากข้อผิดทั่วไป ถ้ามีแม้ข้อเดียว ไม่ควรใช้โดยไม่มีคนตรวจ</p></div>
+        <div class="hw"><b>การบ้าน:</b> เลือกงาน 1 อย่างในหน่วยงานของท่าน แล้วเขียนเคสทดสอบ 10 เคสพร้อมคำตอบอ้างอิง</div>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="slide" data-group="บทที่ 2 เก่งแค่ไหน" data-title="Prompt สำหรับทดสอบ DDI">
+      <div class="wrap">
+        <div class="eyebrow">บทที่ 2 · เก่งแค่ไหน</div>
+        <h2>Prompt ทดสอบ: Context · Task · Format</h2><div class="rule"></div>
+        <div class="weak"><span class="x">แบบอ่อน</span><q>ยาพวกนี้ตีกันไหม</q><span class="small">ไม่บอกบริบท ไม่บอกเกณฑ์ ไม่บอกรูปแบบ ตรวจผลยาก</span></div>
+        <div class="ctf-legend"><span><i style="background:#4CAF50"></i>Context</span><span><i style="background:#F4CD00"></i>Task</span><span><i style="background:#F0566B"></i>Format</span></div>
+        <div class="prompt">
+          <div class="bar"><span>Prompt ตัวอย่าง</span><button class="copy" data-copy="p1"><svg width="14" height="14"><use href="#i-copy"/></svg>คัดลอก</button></div>
+<pre class="ptext" id="p1"><span class="c">ฉันเป็นเภสัชกรห้องยาผู้ป่วยนอก กำลังทดสอบว่า AI ตอบเรื่องปฏิกิริยาระหว่างยาได้แม่นแค่ไหน ข้อมูลด้านล่างไม่มีข้อมูลระบุตัวผู้ป่วย</span>
+<span class="tk">ประเมินคู่ยา 10 คู่ด้านล่างว่ามีปฏิกิริยาระหว่างยาที่มีนัยสำคัญทางคลินิกหรือไม่ บอกกลไก ระดับความรุนแรง และแนวทางจัดการ ถ้าข้อไหนไม่มั่นใจให้บอกตรง ๆ ห้ามเดา</span>
+<span class="f">ตอบเป็นตาราง: คู่ยา | มี/ไม่มี | กลไก | ความรุนแรง | แนวทางจัดการ | ความมั่นใจ (สูง/กลาง/ต่ำ) | แหล่งที่ควรตรวจซ้ำ</span>
+
+1. simvastatin + clarithromycin
+2. ...</pre>
+        </div>
+        <p class="small">ช่อง "ความมั่นใจ" กับ "แหล่งที่ควรตรวจซ้ำ" ช่วยให้เภสัชกรรู้ว่าต้องตรวจข้อไหนก่อน</p>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="slide divider" data-group="บทที่ 3 ใช้ได้แค่ไหน" data-title="บทที่ 3 ใช้ได้แค่ไหน">
+      <div class="wrap">
+        <div class="num">03</div>
+        <h2>ใช้ได้แค่ไหน</h2>
+        <p>รู้ว่างานไหนเหมาะ ข้อจำกัดอะไรที่ผู้พัฒนายอมรับเอง และอะไรห้ามใช้</p>
+        <div class="chips"><span class="chip">งานที่เหมาะ</span><span class="chip">ข้อจำกัด</span><span class="chip">ข้อห้าม</span><span class="chip time">≈ 1.5 นาที</span></div>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="slide" data-group="บทที่ 3 ใช้ได้แค่ไหน" data-title="ข้อบ่งใช้ ข้อจำกัด ข้อห้าม">
+      <div class="wrap">
+        <div class="eyebrow">บทที่ 3 · ใช้ได้แค่ไหน</div>
+        <h2>ข้อบ่งใช้ ข้อจำกัด และข้อห้าม</h2><div class="rule"></div>
+        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+          <div class="card"><h3 style="color:var(--green)">เหมาะกับ</h3>
+            <ul class="list g"><li>งานสืบค้นเชิงลึกหลายรอบ</li><li>วิเคราะห์และสังเคราะห์เอกสารที่มีทั้งข้อความและภาพ</li><li>งานที่ต้องใช้ความรู้เฉพาะทางและเขียนดี</li><li>การให้เหตุผลทางวิทยาศาสตร์และคณิตศาสตร์</li></ul></div>
+          <div class="card"><h3 style="color:var(--amber)">ข้อจำกัดที่ผู้พัฒนาระบุเอง</h3>
+            <ul class="list"><li>อาจตอบผิดแบบมั่นใจ (hallucination)</li><li>บางครั้งช้าหรือ timeout</li><li>ความรู้ถึง มี.ค. 2569 บางสาขาเก่ากว่านั้น</li></ul></div>
+          <div class="card"><h3 style="color:var(--red)">ห้ามนำไปใช้ใน</h3>
+            <ul class="list"><li>กิจกรรมผิดกฎหมายหรืออันตราย</li><li>เจาะระบบความปลอดภัยของผู้อื่น</li><li>เนื้อหาทางเพศ รุนแรง หรือสร้างความเกลียดชัง</li><li>ข้อมูลเท็จหรือชี้นำให้เข้าใจผิด</li></ul></div>
+        </div>
+        <div class="callout"><svg width="20" height="20"><use href="#i-warn"/></svg><p>safety alert ของ อย. FDA หรือ EMA ที่ออกหลัง มี.ค. 2569 โมเดลจะไม่รู้ ถ้าไม่ได้เปิดค้นเว็บ คำถามเรื่องความปลอดภัยของยาจึงต้องตรวจกับแหล่งต้นทางเสมอ</p></div>
+        <div class="prompt">
+          <div class="bar"><span>ประโยคเติมท้าย prompt ทุกครั้งที่ถามเรื่องยา</span><button class="copy" data-copy="p2"><svg width="14" height="14"><use href="#i-copy"/></svg>คัดลอก</button></div>
+<pre class="ptext" id="p2">ก่อนตอบ บอกก่อนว่าข้อมูลที่ใช้ล่าสุดถึงเมื่อไร และระบุข้อที่ควรตรวจกับเอกสารกำกับยาหรือประกาศของ อย. ฉบับปัจจุบัน</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="slide divider" data-group="บทที่ 4 ปลอดภัยแค่ไหน" data-title="บทที่ 4 ปลอดภัยแค่ไหน">
+      <div class="wrap">
+        <div class="num">04</div>
+        <h2>ปลอดภัยแค่ไหน</h2>
+        <p>อ่านผลประเมินความปลอดภัย และดูว่าผู้พัฒนายอมรับความเสี่ยงด้านใดบ้าง</p>
+        <div class="chips"><span class="chip">นโยบายความปลอดภัย</span><span class="chip">เทียบรุ่นก่อน</span><span class="chip">Frontier Safety</span><span class="chip time">≈ 2.5 นาที</span></div>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="slide" data-group="บทที่ 4 ปลอดภัยแค่ไหน" data-title="ผลประเมินเทียบ Gemini 3.1 Pro">
+      <div class="wrap">
+        <div class="eyebrow">บทที่ 4 · ปลอดภัยแค่ไหน</div>
+        <h2>ปฏิเสธเกินเหตุน้อยลง ภาพและหลายภาษาปลอดภัยขึ้น</h2><div class="rule"></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>การประเมิน (อัตโนมัติ)</th><th>วัดอะไร</th><th>เทียบ Gemini 3.1 Pro</th><th>อ่านผล</th></tr></thead>
+            <tbody>
+              <tr><td>Unjustified refusals</td><td>ปฏิเสธคำถามที่ตอบได้อย่างปลอดภัย (ต่ำดี)</td><td class="delta up">−9.60 pp</td><td><span class="st ok">ดีขึ้น</span></td></tr>
+              <tr><td>Image to Text Safety</td><td>ละเมิดนโยบายเมื่อรับภาพ + ข้อความ (ต่ำดี)</td><td class="delta up">−9.29 pp</td><td><span class="st ok">ดีขึ้น</span></td></tr>
+              <tr><td>Tone</td><td>ปฏิเสธด้วยน้ำเสียงเป็นกลาง ไม่เทศนา (สูงดี)</td><td class="delta up">+5.50%</td><td><span class="st ok">ดีขึ้น</span></td></tr>
+              <tr><td>Multilingual Safety</td><td>ละเมิดนโยบายในหลายภาษา (ต่ำดี)</td><td class="delta up">−3.16 pp</td><td><span class="st ok">ดีขึ้น</span></td></tr>
+              <tr><td>Text to Text Safety</td><td>ละเมิดนโยบายเมื่อรับข้อความ (ต่ำดี)</td><td class="delta flat">+1.57 pp</td><td><span class="st warn">ทรงตัว</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small">Text to Text ขยับขึ้นเล็กน้อย ผู้พัฒนาระบุว่ายังอยู่ในช่วงความเชื่อมั่น และตรวจด้วยคนแล้วพบว่าส่วนใหญ่เป็น false positive หรือไม่ร้ายแรง · วิธีวัดปรับใหม่ จึงเทียบตรง ๆ กับ model card รุ่นก่อนไม่ได้</p>
+        <div class="tip"><span class="ico g"><svg><use href="#i-shield"/></svg></span><p>หนึ่งในนโยบายความปลอดภัย 5 ข้อของ Gemini คือ ไม่ให้คำแนะนำทางการแพทย์ที่ขัดกับฉันทามติทางวิทยาศาสตร์ แต่นโยบายไม่ได้แปลว่าตอบถูกทุกข้อ</p></div>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="slide" data-group="บทที่ 4 ปลอดภัยแค่ไหน" data-title="Frontier Safety: ความเสี่ยงขั้นสูง">
+      <div class="wrap">
+        <div class="eyebrow">บทที่ 4 · ปลอดภัยแค่ไหน</div>
+        <h2>ความเสี่ยงขั้นสูง 3 ด้านที่ผู้พัฒนา "ตัดออกไม่ได้"</h2><div class="rule"></div>
+        <p class="small">CCL = เกณฑ์ความสามารถระดับวิกฤต (อันตรายร้ายแรงในวงกว้าง) · TCL = เกณฑ์ที่ต่ำกว่า CCL ตาม Frontier Safety Framework ของ Google DeepMind (เม.ย. 2569)</p>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>ด้าน</th><th>สิ่งที่พบ</th><th>สถานะ</th></tr></thead>
+            <tbody>
+              <tr><td><b>ชีวภาพ</b> (CBRN)</td><td>ผู้เชี่ยวชาญทดสอบแล้วพบว่าให้ข้อมูลเพิ่มขึ้นกว่าการค้นเว็บใน 2 สถานการณ์ จึงใส่มาตรการป้องกัน</td><td><span class="st warn">ตัดออกไม่ได้ · มีมาตรการ</span></td></tr>
+              <tr><td><b>เคมี รังสี นิวเคลียร์</b></td><td>ขาดความรู้เชิงลึกระดับผู้เชี่ยวชาญที่ใช้ลงมือได้จริง</td><td><span class="st ok">ไม่ถึงเกณฑ์ TCL</span></td></tr>
+              <tr><td><b>ไซเบอร์</b></td><td>ช่วยการโจมตีได้มากตามผลประเมิน จึงใส่มาตรการป้องกัน</td><td><span class="st warn">ตัดออกไม่ได้ · มีมาตรการ</span></td></tr>
+              <tr><td><b>การชักจูง</b></td><td>โน้มน้าวผู้ใช้ได้บ้างในการสนทนาตัวต่อตัว แต่ต่ำกว่าเกณฑ์</td><td><span class="st ok">ไม่ถึงเกณฑ์ CCL</span></td></tr>
+              <tr><td><b>การหลบเลี่ยงการกำกับ</b></td><td>ผ่าน 14 จาก 15 โจทย์ด้านการรับรู้สภาพแวดล้อมและการหลบเลี่ยง จึงใส่มาตรการทั้งภายในและภายนอก</td><td><span class="st warn">ตัดออกไม่ได้ · มีมาตรการ</span></td></tr>
+              <tr><td><b>เร่งงานวิจัย AI</b></td><td>ผลยังต่ำกว่าเกณฑ์ทั้งด้านเร่งและด้านทำแทนทีมวิจัย</td><td><span class="st ok">ไม่ถึงเกณฑ์ CCL</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tip"><span class="ico"><svg><use href="#i-eye"/></svg></span><p>model card ที่ดีควรบอกด้านที่ยังเสี่ยงอย่างตรงไปตรงมา แบบเดียวกับ boxed warning ในเอกสารกำกับยา ถ้า model card ไหนไม่มีส่วนนี้เลย ให้ถามผู้ขายเพิ่ม</p></div>
+      </div>
+    </section>
+
+    <!-- 17 -->
+    <section class="slide" data-group="สรุป" data-title="สรุป">
+      <div class="wrap">
+        <div class="eyebrow">สรุป</div>
+        <h2>อ่าน ทดสอบ ใช้แบบมีคนตรวจ</h2><div class="rule"></div>
+        <div class="flow sumflow">
+          <div class="node key"><span class="k">1</span><div class="t">อ่าน 4 คำถาม</div><div class="d">รู้จัก · เก่งแค่ไหน · ใช้ได้แค่ไหน · ปลอดภัยแค่ไหน</div></div>
+          <div class="arr"><svg width="24" height="24"><use href="#i-arrow"/></svg></div>
+          <div class="node"><span class="k">2</span><div class="t">ทดสอบกับเคสของเรา</div><div class="d">20 เคส ไม่มีข้อมูลระบุตัว มีคำตอบอ้างอิง</div></div>
+          <div class="arr"><svg width="24" height="24"><use href="#i-arrow"/></svg></div>
+          <div class="node out"><span class="k">3</span><div class="t">ใช้โดยมีเภสัชกรตรวจ</div><div class="d">โดยเฉพาะงานที่กระทบการรักษา</div></div>
+          <div class="arr"><svg width="24" height="24"><use href="#i-arrow"/></svg></div>
+          <div class="node"><span class="k">4</span><div class="t">ทบทวนเมื่อรุ่นเปลี่ยน</div><div class="d">model card อัปเดตได้ ผลทดสอบเดิมอาจใช้ไม่ได้</div></div>
+        </div>
+        <p class="small">ชื่อรุ่น คะแนน และช่องทางให้บริการ เป็นข้อมูล ณ ต.ค. 2569 และอาจเปลี่ยนเมื่อผู้พัฒนาอัปเดต model card</p>
+        <div class="grid g2">
+          <div class="maker">
+            <span class="small">ผู้จัดทำ</span>
+            <span class="nm">ดร.ภก.วิรุณ เวชศิริ</span>
+            <span>คณะเภสัชศาสตร์ มหาวิทยาลัยธรรมศาสตร์</span>
+            <span class="small">เอกสารประกอบการอบรม · ห้ามนำไปเผยแพร่โดยไม่ได้รับอนุญาต</span>
+            <span class="credit">แนวคิดเนื้อหาดัดแปลงจาก Gemini 4 Argon Model Card, Google DeepMind (2026)</span>
+          </div>
+          <div class="ask"><span class="ico r" style="width:36px;height:36px"><svg><use href="#i-bulb"/></svg></span><p>ถ้าต้องเสนอ PTC ให้นำ AI ตัวหนึ่งเข้ามาใช้ในห้องยา ท่านจะขอดูส่วนไหนของ model card เป็นอันดับแรก และเพราะอะไร</p></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="pager" aria-label="เลื่อนสไลด์">
+    <button class="pbtn" id="prev"><svg width="16" height="16" style="transform:rotate(180deg)"><use href="#i-arrow"/></svg><span class="lbl">ก่อนหน้า</span></button>
+    <div class="prog" aria-hidden="true"><i id="progBar"></i></div>
+    <span class="pnum" id="pnum">1 / 17</span>
+    <button class="pbtn" id="next"><span class="lbl">ถัดไป</span><svg width="16" height="16"><use href="#i-arrow"/></svg></button>
+  </nav>
+  <footer class="foot">คณะเภสัชศาสตร์ มหาวิทยาลัยธรรมศาสตร์ &nbsp;|&nbsp; pharm.tu.ac.th &nbsp;|&nbsp; <span id="fnum">1</span></footer>
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-label="สารบัญ" hidden>
+  <h3>สารบัญ <button class="x" id="closeToc" aria-label="ปิดสารบัญ">×</button></h3>
+  <div id="tocList" style="display:flex;flex-direction:column;gap:14px"></div>
+</aside>
+
+<script>
+(function(){
+  // benchmark data from the model card (Oct 2026)
+  var lead=[
+    ["Vals Index","งานความรู้ในสำนักงาน",68.9,"Claude Opus 5.5",67.0],
+    ["Vals Finance Agent v2","วิเคราะห์การเงิน",65.4,"Claude Fable 5.1",58.9],
+    ["Harvey's Legal Agent","งานกฎหมาย",19.6,"Claude Fable 5.1",6.7],
+    ["LABBench 2","งานวิจัยชีววิทยา",88.8,"GPT-6 Astra",85.4],
+    ["GraphWalks 256k–1M","อ่านเอกสารยาวมาก",84.2,"GPT-6 Astra",71.8],
+    ["LVBench","เข้าใจวิดีโอยาว",91.7,"GPT-6 Astra",87.5]
+  ];
+  var trail=[
+    ["FrontierSWE v2","เขียนโปรแกรมแบบ agent",55.0,"GPT-6 Astra",65.5],
+    ["Terminal-bench 4.0","ทำงานผ่าน command line",57.4,"Claude Opus 5.5",66.4],
+    ["Terminal-Bench Science 0.1","งานวิทยาศาสตร์ผ่าน terminal",57.6,"GPT-6 Astra",68.1],
+    ["PostTrainBench","งานวิศวกรรม ML",45.3,"Claude Opus 5.5",49.3],
+    ["OSWorld-2.0","ใช้คอมพิวเตอร์แทนคน",69.2,"GPT-6 Astra",72.6]
+  ];
+  function group(title,icon,rows){
+    var h='<div class="bgroup"><h3><svg width="18" height="18" style="color:var('+(icon==="i-check"?"--green":"--red")+')"><use href="#'+icon+'"/></svg>'+title+'</h3>';
+    rows.forEach(function(r){
+      h+='<div class="brow"><div class="bname">'+r[0]+' <small>'+r[1]+'</small></div>'+
+        '<div class="bline"><span class="who">Argon</span><span class="btrack"><span class="bfill ar" style="display:block;width:'+r[2]+'%"></span></span><span class="val">'+r[2].toFixed(1)+'%</span></div>'+
+        '<div class="bline"><span class="who">'+r[3]+'</span><span class="btrack"><span class="bfill ot" style="display:block;width:'+r[4]+'%"></span></span><span class="val">'+r[4].toFixed(1)+'%</span></div></div>';
+    });
+    return h+'</div>';
+  }
+  document.getElementById('bench').innerHTML=group('Argon นำ','i-check',lead)+group('รุ่นอื่นนำ','i-x',trail);
+
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var N=slides.length, cur=0;
+  var prev=document.getElementById('prev'), next=document.getElementById('next');
+  function store(i){try{localStorage.setItem('argon-slide',String(i))}catch(e){}}
+  function show(i,push){
+    i=Math.max(0,Math.min(N-1,i)); cur=i;
+    slides.forEach(function(s,k){s.classList.toggle('on',k===i)});
+    slides[i].scrollTop=0;
+    document.getElementById('pnum').textContent=(i+1)+' / '+N;
+    document.getElementById('fnum').textContent=i+1;
+    document.getElementById('progBar').style.width=((i+1)/N*100)+'%';
+    prev.disabled=i===0; next.disabled=i===N-1;
+    if(push!==false){try{history.replaceState(null,'','#s'+(i+1))}catch(e){}}
+    store(i);
+    [].forEach.call(document.querySelectorAll('.dlink'),function(b){b.classList.toggle('cur',+b.dataset.i===i)});
+  }
+  prev.onclick=function(){show(cur-1)}; next.onclick=function(){show(cur+1)};
+  document.addEventListener('keydown',function(e){
+    if(!drawer.hidden){if(e.key==='Escape')closeToc();return}
+    if(/INPUT|TEXTAREA/.test(e.target.tagName))return;
+    if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();show(cur+1)}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(cur-1)}
+    else if(e.key==='Home'){show(0)} else if(e.key==='End'){show(N-1)}
+  });
+  var sx=null,sy=null;
+  var stage=document.getElementById('stage');
+  stage.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+  stage.addEventListener('touchend',function(e){
+    if(sx===null)return;var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){show(cur+(dx<0?1:-1))} sx=null;
+  },{passive:true});
+  [].forEach.call(document.querySelectorAll('[data-go]'),function(b){b.onclick=function(){show(+b.dataset.go-1)}});
+
+  // toc
+  var drawer=document.getElementById('drawer'),scrim=document.getElementById('scrim'),list=document.getElementById('tocList');
+  var groups=[],gmap={};
+  slides.forEach(function(s,i){var g=s.dataset.group;if(!gmap[g]){gmap[g]=[];groups.push(g)}gmap[g].push(i)});
+  groups.forEach(function(g){
+    var d=document.createElement('div');d.className='dgroup';
+    var l=document.createElement('div');l.className='gl';l.textContent=g;d.appendChild(l);
+    gmap[g].forEach(function(i){var b=document.createElement('button');b.className='dlink';b.dataset.i=i;
+      var n=document.createElement('span');n.textContent=i+1;b.appendChild(n);b.appendChild(document.createTextNode(slides[i].dataset.title));
+      b.onclick=function(){show(i);closeToc()};d.appendChild(b)});
+    list.appendChild(d);
+  });
+  function openToc(){drawer.hidden=false;scrim.hidden=false;var c=drawer.querySelector('.dlink.cur')||drawer.querySelector('.dlink');if(c)c.focus()}
+  function closeToc(){drawer.hidden=true;scrim.hidden=true;document.getElementById('tocBtn').focus()}
+  document.getElementById('tocBtn').onclick=openToc;
+  document.getElementById('closeToc').onclick=closeToc; scrim.onclick=closeToc;
+
+  // copy
+  [].forEach.call(document.querySelectorAll('.copy'),function(b){
+    b.addEventListener('click',function(){
+      var el=document.getElementById(b.dataset.copy),txt=el.textContent;
+      var done=function(){var o=b.innerHTML;b.textContent='คัดลอกแล้ว';setTimeout(function(){b.innerHTML=o},1600)};
+      var sel=function(){var r=document.createRange();r.selectNodeContents(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);b.textContent='เลือกข้อความแล้ว กด Ctrl/⌘+C'};
+      try{navigator.clipboard.writeText(txt).then(done,sel)}catch(e){sel()}
+    });
+  });
+
+  // start
+  var start=0,m=/^#s(\d+)$/.exec(location.hash||'');
+  if(m){start=+m[1]-1}else{try{var v=localStorage.getItem('argon-slide');if(v!==null)start=+v||0}catch(e){}}
+  show(start,false);
+})();
+</script>
+
+</body>
+</html>
